@@ -6,11 +6,15 @@ module.exports = {
   data: new SlashCommandBuilder()
     .setName('lyrics')
     .setDescription('Shows lyrics of current song'),
-  async execute(interaction, history) {
+  async execute(interaction, queue) {
     await interaction.deferReply();
-    const searches = await Client.songs.search(history[0]);
-    const lyrics = await searches[0].lyrics();
+    if (queue.length > 0) {
+      const searches = await Client.songs.search(queue[0].query);
+      const lyrics = await searches[0].lyrics();
 
-    await interaction.editReply(lyrics);
+      await interaction.editReply(lyrics);
+    } else {
+      await interaction.editReply('No music playing :(');
+    }
   },
 };

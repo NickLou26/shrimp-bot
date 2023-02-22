@@ -7,7 +7,7 @@ const { Client, Collection, Events, GatewayIntentBits } = require('discord.js');
 //OAuth2Token
 const { token } = require('./config.json');
 
-const history = new Array();
+const queue = new Array();
 
 // Create a new client instance
 const client = new Client({
@@ -50,7 +50,7 @@ client.on(Events.InteractionCreate, async (interaction) => {
 
   if (command) {
     try {
-      await command.execute(interaction, history);
+      await command.execute(interaction, queue);
     } catch (error) {
       console.log(error);
       await interaction.reply({
